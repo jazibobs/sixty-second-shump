@@ -2,6 +2,7 @@ extends Node2D
 
 enum TouchState {TOUCHED, UNTOUCHED}
 
+
 func _on_LeftBtn_pressed():
 	_manage_button_look($UI/VBoxContainer/TouchControls/LeftBtn, TouchState.TOUCHED)
 

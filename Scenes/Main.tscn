@@ -1,16 +1,19 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Fonts/Silkscreen/slkscr.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://Scenes/Player.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Sprites/TouchCtrlActive.png" type="Texture" id=3]
 [ext_resource path="res://Sprites/TouchCtrlInactive.png" type="Texture" id=4]
 [ext_resource path="res://Scripts/Main.gd" type="Script" id=5]
+[ext_resource path="res://Sprites/Nabula.png" type="Texture" id=6]
 
 [sub_resource type="DynamicFont" id=1]
 size = 32
 outline_size = 2
 outline_color = Color( 0.137255, 0.0666667, 0.137255, 1 )
 font_data = ExtResource( 1 )
+
+[sub_resource type="RectangleShape2D" id=2]
 
 [node name="Main" type="Node2D"]
 script = ExtResource( 5 )
@@ -19,33 +22,38 @@ __meta__ = {
 "_edit_vertical_guides_": [ 375.0, 20.0, 355.0, 187.0 ]
 }
 
-[node name="UI" type="CenterContainer" parent="."]
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="UI" type="CenterContainer" parent="CanvasLayer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_right = 375.0
-margin_bottom = 812.0
+margin_right = -1.0
+margin_bottom = -1.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ColorRect" type="ColorRect" parent="UI"]
-margin_right = 375.0
-margin_bottom = 812.0
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer/UI"]
+visible = false
+margin_left = -1.0
+margin_top = -1.0
+margin_right = 374.0
+margin_bottom = 811.0
 rect_min_size = Vector2( 375, 812 )
 color = Color( 0.137255, 0.0666667, 0.137255, 1 )
 
-[node name="VBoxContainer" type="VBoxContainer" parent="UI"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/UI"]
 margin_left = 87.0
 margin_top = 60.0
 margin_right = 287.0
 margin_bottom = 751.0
 
-[node name="TimerInfomation" type="HBoxContainer" parent="UI/VBoxContainer"]
+[node name="TimerInfomation" type="HBoxContainer" parent="CanvasLayer/UI/VBoxContainer"]
 margin_right = 200.0
 margin_bottom = 33.0
 alignment = 1
 
-[node name="TimerLabel" type="Label" parent="UI/VBoxContainer/TimerInfomation"]
+[node name="TimerLabel" type="Label" parent="CanvasLayer/UI/VBoxContainer/TimerInfomation"]
 margin_left = 25.0
 margin_right = 124.0
 margin_bottom = 33.0
@@ -53,7 +61,7 @@ custom_colors/font_color = Color( 0.937255, 0.968627, 1, 1 )
 custom_fonts/font = SubResource( 1 )
 text = "Time: "
 
-[node name="Timer" type="Label" parent="UI/VBoxContainer/TimerInfomation"]
+[node name="Timer" type="Label" parent="CanvasLayer/UI/VBoxContainer/TimerInfomation"]
 margin_left = 128.0
 margin_right = 174.0
 margin_bottom = 33.0
@@ -63,19 +71,19 @@ custom_fonts/font = SubResource( 1 )
 text = "60"
 align = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="UI/VBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/UI/VBoxContainer"]
 margin_top = 37.0
 margin_right = 200.0
 margin_bottom = 687.0
 rect_min_size = Vector2( 200, 650 )
 
-[node name="TouchControls" type="HBoxContainer" parent="UI/VBoxContainer"]
+[node name="TouchControls" type="HBoxContainer" parent="CanvasLayer/UI/VBoxContainer"]
 margin_top = 691.0
 margin_right = 200.0
 margin_bottom = 691.0
 alignment = 1
 
-[node name="LeftBtn" type="TouchScreenButton" parent="UI/VBoxContainer/TouchControls"]
+[node name="LeftBtn" type="TouchScreenButton" parent="CanvasLayer/UI/VBoxContainer/TouchControls"]
 modulate = Color( 1, 1, 1, 0.686275 )
 position = Vector2( -67, -23 )
 normal = ExtResource( 4 )
@@ -83,7 +91,7 @@ pressed = ExtResource( 3 )
 passby_press = true
 action = "move_left"
 
-[node name="RightBtn" type="TouchScreenButton" parent="UI/VBoxContainer/TouchControls"]
+[node name="RightBtn" type="TouchScreenButton" parent="CanvasLayer/UI/VBoxContainer/TouchControls"]
 modulate = Color( 1, 1, 1, 0.686275 )
 position = Vector2( 77, 41 )
 rotation = 3.14159
@@ -92,7 +100,7 @@ pressed = ExtResource( 3 )
 passby_press = true
 action = "move_right"
 
-[node name="FireBtn" type="TouchScreenButton" parent="UI/VBoxContainer/TouchControls"]
+[node name="FireBtn" type="TouchScreenButton" parent="CanvasLayer/UI/VBoxContainer/TouchControls"]
 modulate = Color( 1, 1, 1, 0.686275 )
 position = Vector2( 268, -23 )
 rotation = 1.5708
@@ -100,13 +108,32 @@ normal = ExtResource( 4 )
 pressed = ExtResource( 3 )
 action = "fire_weapon"
 
+[node name="Level" type="Node2D" parent="."]
+
+[node name="LeftLimit" type="StaticBody2D" parent="Level"]
+position = Vector2( -20, 600 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Level/LeftLimit"]
+shape = SubResource( 2 )
+
+[node name="RightLimit" type="StaticBody2D" parent="Level"]
+position = Vector2( 395, 600 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Level/RightLimit"]
+shape = SubResource( 2 )
+
+[node name="Nebula" type="Sprite" parent="Level"]
+modulate = Color( 0.666667, 0.498039, 0.666667, 1 )
+position = Vector2( 198, 406 )
+texture = ExtResource( 6 )
+
 [node name="Player" parent="." instance=ExtResource( 2 )]
 position = Vector2( 187.5, 575 )
 scale = Vector2( 2, 2 )
 
-[connection signal="pressed" from="UI/VBoxContainer/TouchControls/LeftBtn" to="." method="_on_LeftBtn_pressed"]
-[connection signal="released" from="UI/VBoxContainer/TouchControls/LeftBtn" to="." method="_on_LeftBtn_released"]
-[connection signal="pressed" from="UI/VBoxContainer/TouchControls/RightBtn" to="." method="_on_RightBtn_pressed"]
-[connection signal="released" from="UI/VBoxContainer/TouchControls/RightBtn" to="." method="_on_RightBtn_released"]
-[connection signal="pressed" from="UI/VBoxContainer/TouchControls/FireBtn" to="." method="_on_FireBtn_pressed"]
-[connection signal="released" from="UI/VBoxContainer/TouchControls/FireBtn" to="." method="_on_FireBtn_released"]
+[connection signal="pressed" from="CanvasLayer/UI/VBoxContainer/TouchControls/LeftBtn" to="." method="_on_LeftBtn_pressed"]
+[connection signal="released" from="CanvasLayer/UI/VBoxContainer/TouchControls/LeftBtn" to="." method="_on_LeftBtn_released"]
+[connection signal="pressed" from="CanvasLayer/UI/VBoxContainer/TouchControls/RightBtn" to="." method="_on_RightBtn_pressed"]
+[connection signal="released" from="CanvasLayer/UI/VBoxContainer/TouchControls/RightBtn" to="." method="_on_RightBtn_released"]
+[connection signal="pressed" from="CanvasLayer/UI/VBoxContainer/TouchControls/FireBtn" to="." method="_on_FireBtn_pressed"]
+[connection signal="released" from="CanvasLayer/UI/VBoxContainer/TouchControls/FireBtn" to="." method="_on_FireBtn_released"]
