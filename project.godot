@@ -11,7 +11,8 @@ config_version=4
 [application]
 
 config/name="Shump for 60"
-run/main_scene="res://Scenes/Main.tscn"
+config/description="Created for One Minute Game Jam #5"
+run/main_scene="res://Scenes/Title.tscn"
 boot_splash/image="res://Icons/shump4sixty-180x180.png"
 boot_splash/fullsize=false
 boot_splash/bg_color=Color( 0.137255, 0.0666667, 0.137255, 1 )

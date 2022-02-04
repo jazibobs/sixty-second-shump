@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://Sprites/Player.png" type="Texture" id=1]
 [ext_resource path="res://Sprites/Booster.png" type="Texture" id=2]
@@ -6,6 +6,26 @@
 [ext_resource path="res://Sprites/Weapon2.png" type="Texture" id=4]
 [ext_resource path="res://Sprites/Weapon3.png" type="Texture" id=5]
 [ext_resource path="res://Sprites/Weapon1.png" type="Texture" id=6]
+[ext_resource path="res://Sprites/Player-Dmg.png" type="Texture" id=7]
+[ext_resource path="res://Audio/sfx_wpn_laser6.wav" type="AudioStream" id=8]
+[ext_resource path="res://Audio/sfx_exp_short_hard15.wav" type="AudioStream" id=9]
+
+[sub_resource type="SpriteFrames" id=3]
+animations = [ {
+"frames": [ ExtResource( 1 ) ],
+"loop": true,
+"name": "Standard",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 1 ), ExtResource( 7 ), ExtResource( 1 ), ExtResource( 7 ), ExtResource( 1 ), ExtResource( 7 ), ExtResource( 1 ), ExtResource( 7 ), ExtResource( 1 ), ExtResource( 7 ) ],
+"loop": true,
+"name": "Dead",
+"speed": 5.0
+} ]
+
+[sub_resource type="Curve" id=2]
+min_value = -1.0
+_data = [ Vector2( 0, 0.00909102 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.0636364 ), 0.0, 0.0, 0, 0 ]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
@@ -15,15 +35,49 @@ animations = [ {
 "speed": 5.0
 } ]
 
+[sub_resource type="Curve" id=4]
+_data = [ Vector2( 0, 0.745454 ), 0.0, 0.0, 0, 0, Vector2( 0.686275, 0 ), 0.0, 0.0, 0, 0 ]
+
 [node name="Player" type="KinematicBody2D"]
 script = ExtResource( 3 )
 
-[node name="ShipBody" type="Sprite" parent="."]
+[node name="ShipBody" type="AnimatedSprite" parent="."]
 z_index = 1
-texture = ExtResource( 1 )
+frames = SubResource( 3 )
+animation = "Standard"
+
+[node name="AfterburnL" type="CPUParticles2D" parent="ShipBody"]
+position = Vector2( -10.5, 14 )
+scale = Vector2( 0.05, 0.05 )
+z_index = -1
+amount = 15
+lifetime = 1.25
+speed_scale = 1.5
+randomness = 0.25
+lifetime_randomness = 0.25
+texture = ExtResource( 2 )
+spread = 0.0
+gravity = Vector2( 0, 150 )
+hue_variation_random = 0.64
+hue_variation_curve = SubResource( 2 )
+
+[node name="AfterburnR" type="CPUParticles2D" parent="ShipBody"]
+position = Vector2( 10.5, 14 )
+scale = Vector2( 0.05, 0.05 )
+z_index = -1
+amount = 12
+lifetime = 1.25
+speed_scale = 1.5
+randomness = 0.25
+lifetime_randomness = 0.25
+texture = ExtResource( 2 )
+spread = 0.0
+gravity = Vector2( 0, 150 )
+hue_variation_random = 0.64
+hue_variation_curve = SubResource( 2 )
 
 [node name="BoosterL" type="Light2D" parent="ShipBody"]
-position = Vector2( -11, 16 )
+position = Vector2( -10, 16 )
 scale = Vector2( 0.5, 0.5 )
 texture = ExtResource( 2 )
 shadow_enabled = true
@@ -35,10 +89,42 @@ texture = ExtResource( 2 )
 shadow_enabled = true
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
-visible = false
 polygon = PoolVector2Array( 0, -19, -5, -8, -14, 4, -14, 13, -8, 13, 0, 5, 8, 13, 14, 13, 14, 4, 5, -8 )
 
 [node name="Weapons" type="AnimatedSprite" parent="."]
 z_index = 1
 frames = SubResource( 1 )
 frame = 2
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Area2D"]
+polygon = PoolVector2Array( 0, -19, -5, -8, -14, 4, -14, 13, -8, 13, 0, 5, 8, 13, 14, 13, 14, 4, 5, -8 )
+
+[node name="DamageParticles" type="CPUParticles2D" parent="."]
+z_index = 1
+emitting = false
+amount = 50
+lifetime = 1.5
+one_shot = true
+speed_scale = 9.81
+texture = ExtResource( 2 )
+emission_shape = 1
+emission_sphere_radius = 1.1
+direction = Vector2( 0, -1 )
+spread = 127.28
+gravity = Vector2( 0, 0 )
+initial_velocity = 25.0
+scale_amount = 0.4
+scale_amount_curve = SubResource( 4 )
+hue_variation_random = 0.27
+
+[node name="LaserSfx" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 8 )
+attenuation = 0.25
+
+[node name="DeadSfx" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 9 )
+
+[connection signal="tree_exiting" from="Weapons" to="." method="_on_Weapons_tree_exiting"]
+[connection signal="body_entered" from="Area2D" to="." method="_on_Area2D_body_entered"]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://Fonts/Silkscreen/slkscr.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://Scenes/Player.tscn" type="PackedScene" id=2]
@@ -6,6 +6,9 @@
 [ext_resource path="res://Sprites/TouchCtrlInactive.png" type="Texture" id=4]
 [ext_resource path="res://Scripts/Main.gd" type="Script" id=5]
 [ext_resource path="res://Sprites/Nabula.png" type="Texture" id=6]
+[ext_resource path="res://Scenes/Stars.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Scripts/Timer.gd" type="Script" id=8]
+[ext_resource path="res://Audio/Juhani Junkala [Retro Game Music Pack] Level 1.wav" type="AudioStream" id=9]
 
 [sub_resource type="DynamicFont" id=1]
 size = 32
@@ -33,59 +36,101 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ColorRect" type="ColorRect" parent="CanvasLayer/UI"]
-visible = false
-margin_left = -1.0
-margin_top = -1.0
-margin_right = 374.0
-margin_bottom = 811.0
-rect_min_size = Vector2( 375, 812 )
-color = Color( 0.137255, 0.0666667, 0.137255, 1 )
-
 [node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/UI"]
-margin_left = 87.0
-margin_top = 60.0
-margin_right = 287.0
-margin_bottom = 751.0
+margin_left = 30.0
+margin_top = 41.0
+margin_right = 344.0
+margin_bottom = 769.0
 
 [node name="TimerInfomation" type="HBoxContainer" parent="CanvasLayer/UI/VBoxContainer"]
-margin_right = 200.0
+margin_right = 314.0
 margin_bottom = 33.0
 alignment = 1
+script = ExtResource( 8 )
+seconds = 60
 
 [node name="TimerLabel" type="Label" parent="CanvasLayer/UI/VBoxContainer/TimerInfomation"]
-margin_left = 25.0
-margin_right = 124.0
+margin_left = 50.0
+margin_right = 149.0
 margin_bottom = 33.0
 custom_colors/font_color = Color( 0.937255, 0.968627, 1, 1 )
 custom_fonts/font = SubResource( 1 )
 text = "Time: "
 
-[node name="Timer" type="Label" parent="CanvasLayer/UI/VBoxContainer/TimerInfomation"]
-margin_left = 128.0
-margin_right = 174.0
+[node name="TimerValueSec" type="Label" parent="CanvasLayer/UI/VBoxContainer/TimerInfomation"]
+margin_left = 153.0
+margin_right = 199.0
 margin_bottom = 33.0
-rect_min_size = Vector2( 40, 0 )
+rect_min_size = Vector2( 46, 0 )
 custom_colors/font_color = Color( 0.937255, 0.968627, 1, 1 )
 custom_fonts/font = SubResource( 1 )
 text = "60"
 align = 2
+valign = 1
+
+[node name="TimerLabelPoint" type="Label" parent="CanvasLayer/UI/VBoxContainer/TimerInfomation"]
+margin_left = 203.0
+margin_right = 213.0
+margin_bottom = 33.0
+rect_min_size = Vector2( 10, 0 )
+custom_colors/font_color = Color( 0.937255, 0.968627, 1, 1 )
+custom_fonts/font = SubResource( 1 )
+text = "."
+align = 2
+
+[node name="TimerValueMs" type="Label" parent="CanvasLayer/UI/VBoxContainer/TimerInfomation"]
+margin_left = 217.0
+margin_right = 263.0
+margin_bottom = 33.0
+rect_min_size = Vector2( 46, 0 )
+custom_colors/font_color = Color( 0.937255, 0.968627, 1, 1 )
+custom_fonts/font = SubResource( 1 )
+text = "00"
+align = 1
+
+[node name="Timer" type="Timer" parent="CanvasLayer/UI/VBoxContainer/TimerInfomation"]
+wait_time = 0.1
+autostart = true
+
+[node name="PointsInformation" type="HBoxContainer" parent="CanvasLayer/UI/VBoxContainer"]
+margin_top = 37.0
+margin_right = 314.0
+margin_bottom = 70.0
+alignment = 1
+
+[node name="PointsLabel" type="Label" parent="CanvasLayer/UI/VBoxContainer/PointsInformation"]
+margin_right = 149.0
+margin_bottom = 33.0
+custom_colors/font_color = Color( 0.937255, 0.968627, 1, 1 )
+custom_fonts/font = SubResource( 1 )
+text = "Points: "
+
+[node name="PointsValue" type="Label" parent="CanvasLayer/UI/VBoxContainer/PointsInformation"]
+margin_left = 153.0
+margin_right = 314.0
+margin_bottom = 33.0
+rect_min_size = Vector2( 160, 0 )
+custom_colors/font_color = Color( 0.937255, 0.968627, 1, 1 )
+custom_fonts/font = SubResource( 1 )
+text = "0000000"
+align = 2
+valign = 1
 
 [node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/UI/VBoxContainer"]
-margin_top = 37.0
-margin_right = 200.0
-margin_bottom = 687.0
+margin_top = 74.0
+margin_right = 314.0
+margin_bottom = 724.0
 rect_min_size = Vector2( 200, 650 )
 
 [node name="TouchControls" type="HBoxContainer" parent="CanvasLayer/UI/VBoxContainer"]
-margin_top = 691.0
-margin_right = 200.0
-margin_bottom = 691.0
+margin_top = 728.0
+margin_right = 314.0
+margin_bottom = 728.0
 alignment = 1
 
 [node name="LeftBtn" type="TouchScreenButton" parent="CanvasLayer/UI/VBoxContainer/TouchControls"]
 modulate = Color( 1, 1, 1, 0.686275 )
-position = Vector2( -67, -23 )
+position = Vector2( -10, -41 )
 normal = ExtResource( 4 )
 pressed = ExtResource( 3 )
 passby_press = true
@@ -93,7 +138,7 @@ action = "move_left"
 
 [node name="RightBtn" type="TouchScreenButton" parent="CanvasLayer/UI/VBoxContainer/TouchControls"]
 modulate = Color( 1, 1, 1, 0.686275 )
-position = Vector2( 77, 41 )
+position = Vector2( 134, 23 )
 rotation = 3.14159
 normal = ExtResource( 4 )
 pressed = ExtResource( 3 )
@@ -102,7 +147,7 @@ action = "move_right"
 
 [node name="FireBtn" type="TouchScreenButton" parent="CanvasLayer/UI/VBoxContainer/TouchControls"]
 modulate = Color( 1, 1, 1, 0.686275 )
-position = Vector2( 268, -23 )
+position = Vector2( 325, -41 )
 rotation = 1.5708
 normal = ExtResource( 4 )
 pressed = ExtResource( 3 )
@@ -111,26 +156,43 @@ action = "fire_weapon"
 [node name="Level" type="Node2D" parent="."]
 
 [node name="LeftLimit" type="StaticBody2D" parent="Level"]
-position = Vector2( -20, 600 )
+position = Vector2( -20, 666 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Level/LeftLimit"]
 shape = SubResource( 2 )
 
 [node name="RightLimit" type="StaticBody2D" parent="Level"]
-position = Vector2( 395, 600 )
+position = Vector2( 395, 666 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Level/RightLimit"]
 shape = SubResource( 2 )
 
-[node name="Nebula" type="Sprite" parent="Level"]
+[node name="Nebula" type="TextureRect" parent="Level"]
 modulate = Color( 0.666667, 0.498039, 0.666667, 1 )
-position = Vector2( 198, 406 )
+margin_left = -110.0
+margin_top = -51.0
+margin_right = 490.0
+margin_bottom = 857.0
 texture = ExtResource( 6 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="FlyingStars" parent="Level" instance=ExtResource( 7 )]
+layer = 2
 
 [node name="Player" parent="." instance=ExtResource( 2 )]
-position = Vector2( 187.5, 575 )
+position = Vector2( 187.5, 655 )
 scale = Vector2( 2, 2 )
 
+[node name="BgMusic" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 9 )
+volume_db = -5.0
+autoplay = true
+
+[connection signal="timeout" from="CanvasLayer/UI/VBoxContainer/TimerInfomation/Timer" to="." method="_on_Timer_timeout"]
+[connection signal="timeout" from="CanvasLayer/UI/VBoxContainer/TimerInfomation/Timer" to="CanvasLayer/UI/VBoxContainer/TimerInfomation" method="_on_Timer_timeout"]
 [connection signal="pressed" from="CanvasLayer/UI/VBoxContainer/TouchControls/LeftBtn" to="." method="_on_LeftBtn_pressed"]
 [connection signal="released" from="CanvasLayer/UI/VBoxContainer/TouchControls/LeftBtn" to="." method="_on_LeftBtn_released"]
 [connection signal="pressed" from="CanvasLayer/UI/VBoxContainer/TouchControls/RightBtn" to="." method="_on_RightBtn_pressed"]
