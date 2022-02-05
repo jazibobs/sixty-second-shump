@@ -5,7 +5,7 @@ enum PlayerState {ACTIVE, DEAD}
 const UP_DIRECTION := Vector2.UP
 
 var status = PlayerState.ACTIVE
-var speed := 750
+var speed := 700
 var laser_speed := 5
 var laser = preload("res://Scenes/Laser.tscn")
 var lasers = []
@@ -46,7 +46,15 @@ func _physics_process(_delta: float):
 
 
 func fire_weapon():
+	var colors = [Color(0.937, 0.968, 255.0),
+		  Color(0.909, 0.859, 0.490),
+		  Color(0.333, 0.549, 0.549),
+		  Color(0.509, 0.125, 0.290),
+		  Color(0.478, 0.898, 0.509),
+		  Color(0.623, 1, 0.796)]
+		
 	var laser_instance = laser.instance()
+	laser_instance.modulate = colors[randi() % colors.size()]
 	laser_instance.position.x = get_global_position().x
 	laser_instance.position.y = get_global_position().y - 50
 	get_tree().get_root().call_deferred("add_child", laser_instance)
@@ -55,7 +63,7 @@ func fire_weapon():
 
 
 func _on_Area2D_body_entered(body):
-	if "Enemy" in body.name:
+	if "Enemy" in body.name or "Laser" in body.name:
 		status = PlayerState.DEAD
 		_velocity = Vector2.ZERO
 		get_node("DeadSfx").play(0.0)
@@ -63,7 +71,10 @@ func _on_Area2D_body_entered(body):
 		$ShipBody.play("Dead")
 		yield($ShipBody, "animation_finished")
 		queue_free()
+		get_tree().paused = true
 
 
-func _on_Weapons_tree_exiting():
+func _on_Player_tree_exiting():
 	get_tree().get_root().get_node("Main/CanvasLayer/UI/VBoxContainer/TimerInfomation/Timer").stop()
+	get_tree().get_root().get_node("Main/CanvasLayer/UI/VBoxContainer/TouchControls/RetryBtn").visible = true
+	get_tree().get_root().get_node("Main/CanvasLayer/UI/VBoxContainer/TouchControls/ReturnBtn").visible = true

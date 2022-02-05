@@ -126,5 +126,5 @@ attenuation = 0.25
 [node name="DeadSfx" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 9 )
 
-[connection signal="tree_exiting" from="Weapons" to="." method="_on_Weapons_tree_exiting"]
+[connection signal="tree_exiting" from="." to="." method="_on_Player_tree_exiting"]
 [connection signal="body_entered" from="Area2D" to="." method="_on_Area2D_body_entered"]

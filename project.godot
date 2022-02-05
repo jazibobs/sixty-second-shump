@@ -18,6 +18,10 @@ boot_splash/fullsize=false
 boot_splash/bg_color=Color( 0.137255, 0.0666667, 0.137255, 1 )
 config/icon="res://Icons/shump4sixty-512x512.png"
 
+[debug]
+
+settings/fps/force_fps=60
+
 [display]
 
 window/size/width=375
@@ -53,6 +57,10 @@ fire_weapon={
 , Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"button_index":1,"pressure":0.0,"pressed":false,"script":null)
  ]
 }
+
+[input_devices]
+
+pointing/emulate_touch_from_mouse=true
 
 [physics]
 
