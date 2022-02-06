@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://Fonts/Silkscreen/slkscr.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://Scenes/Player.tscn" type="PackedScene" id=2]
@@ -13,6 +13,7 @@
 [ext_resource path="res://Audio/Juhani Junkala [Retro Game Music Pack] Level 2.wav" type="AudioStream" id=11]
 [ext_resource path="res://Sprites/Player.png" type="Texture" id=12]
 [ext_resource path="res://Audio/Juhani Junkala [Retro Game Music Pack] Ending.wav" type="AudioStream" id=13]
+[ext_resource path="res://Scenes/SceneTransition.tscn" type="PackedScene" id=14]
 
 [sub_resource type="DynamicFont" id=1]
 size = 32
@@ -172,6 +173,7 @@ action = "fire_weapon"
 
 [node name="RetryBtn" type="TouchScreenButton" parent="CanvasLayer/UI/VBoxContainer/TouchControls"]
 pause_mode = 2
+visible = false
 position = Vector2( 58, -434 )
 z_index = 20
 z_as_relative = false
@@ -308,6 +310,8 @@ volume_db = -6.0
 [node name="GameoverMusic" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 13 )
 volume_db = -6.0
+
+[node name="SceneTransition" parent="." instance=ExtResource( 14 )]
 
 [connection signal="timeout" from="CanvasLayer/UI/VBoxContainer/TimerInfomation/Timer" to="." method="_on_Timer_timeout"]
 [connection signal="timeout" from="CanvasLayer/UI/VBoxContainer/TimerInfomation/Timer" to="CanvasLayer/UI/VBoxContainer/TimerInfomation" method="_on_Timer_timeout"]

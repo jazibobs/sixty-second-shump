@@ -1,0 +1,147 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://Scenes/Stars.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Sprites/Nabula.png" type="Texture" id=2]
+[ext_resource path="res://Fonts/Silkscreen/slkscr.ttf" type="DynamicFontData" id=3]
+[ext_resource path="res://Audio/menu.wav" type="AudioStream" id=4]
+[ext_resource path="res://Scripts/Title.gd" type="Script" id=5]
+[ext_resource path="res://Sprites/Player.png" type="Texture" id=6]
+[ext_resource path="res://Sprites/MenuButton.png" type="Texture" id=7]
+
+[sub_resource type="DynamicFont" id=1]
+size = 28
+outline_size = 2
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 3 )
+
+[node name="TitleScreen" type="Node2D"]
+script = ExtResource( 5 )
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = 5
+
+[node name="Start" type="TouchScreenButton" parent="CanvasLayer"]
+position = Vector2( 88, 440 )
+z_index = 20
+z_as_relative = false
+normal = ExtResource( 7 )
+
+[node name="CenterContainer" type="CenterContainer" parent="CanvasLayer/Start"]
+margin_right = 40.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer/Start/CenterContainer"]
+margin_right = 200.0
+margin_bottom = 100.0
+rect_min_size = Vector2( 200, 100 )
+color = Color( 0.137255, 0.0666667, 0.137255, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="CanvasLayer/Start/CenterContainer"]
+margin_left = 53.0
+margin_top = 35.0
+margin_right = 147.0
+margin_bottom = 64.0
+custom_fonts/font = SubResource( 1 )
+text = "Start"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Quit" type="TouchScreenButton" parent="CanvasLayer"]
+position = Vector2( 88, 564 )
+z_index = 20
+z_as_relative = false
+normal = ExtResource( 7 )
+
+[node name="CenterContainer" type="CenterContainer" parent="CanvasLayer/Quit"]
+margin_right = 40.0
+margin_bottom = 40.0
+rect_min_size = Vector2( 100, 50 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer/Quit/CenterContainer"]
+margin_right = 200.0
+margin_bottom = 100.0
+rect_min_size = Vector2( 200, 100 )
+color = Color( 0.137255, 0.0666667, 0.137255, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="CanvasLayer/Quit/CenterContainer"]
+margin_left = 66.0
+margin_top = 35.0
+margin_right = 133.0
+margin_bottom = 64.0
+custom_fonts/font = SubResource( 1 )
+text = "Quit"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CanvasLayer2" type="CanvasLayer" parent="."]
+follow_viewport_enable = true
+
+[node name="MainMenu" type="Node2D" parent="CanvasLayer2"]
+
+[node name="Nebula" type="TextureRect" parent="CanvasLayer2/MainMenu"]
+modulate = Color( 0.666667, 0.498039, 0.666667, 1 )
+margin_left = -110.0
+margin_top = -51.0
+margin_right = 490.0
+margin_bottom = 857.0
+texture = ExtResource( 2 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="FlyingStars" parent="CanvasLayer2/MainMenu" instance=ExtResource( 1 )]
+layer = 2
+
+[node name="Sprite" type="Sprite" parent="CanvasLayer2"]
+modulate = Color( 1, 1, 1, 0.282353 )
+position = Vector2( 189, 225 )
+scale = Vector2( 4, 4 )
+texture = ExtResource( 6 )
+
+[node name="Title" type="Label" parent="CanvasLayer2"]
+margin_left = 77.0
+margin_top = 195.0
+margin_right = 303.0
+margin_bottom = 256.0
+custom_fonts/font = SubResource( 1 )
+text = "Shump 
+for 60"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Title2" type="Label" parent="CanvasLayer2"]
+modulate = Color( 1, 1, 1, 0.490196 )
+margin_left = 77.0
+margin_top = 738.0
+margin_right = 303.0
+margin_bottom = 799.0
+custom_fonts/font = SubResource( 1 )
+text = "JGR 2022"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TitleMusic" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 4 )
+autoplay = true
+
+[connection signal="pressed" from="CanvasLayer/Start" to="." method="_on_Start_pressed"]
+[connection signal="pressed" from="CanvasLayer/Quit" to="." method="_on_Quit_pressed"]

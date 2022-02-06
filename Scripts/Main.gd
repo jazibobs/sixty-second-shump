@@ -6,6 +6,7 @@ enum EnemyState {STILL, ATTACK}
 onready var LeftBtn = $CanvasLayer/UI/VBoxContainer/TouchControls/LeftBtn
 onready var RightBtn = $CanvasLayer/UI/VBoxContainer/TouchControls/RightBtn
 onready var FireBtn = $CanvasLayer/UI/VBoxContainer/TouchControls/FireBtn
+onready var _transition_rect = $SceneTransition
 
 var rng = RandomNumberGenerator.new()
 var points = 0
@@ -241,8 +242,8 @@ func _on_RetryBtn_pressed():
 			child.queue_free()
 		shot.queue_free()
 	
-	return get_tree().reload_current_scene()
+	return _transition_rect.transition_to("res://Scenes/Main.tscn")
 
 
 func _on_ReturnBtn_pressed():
-	return get_tree().change_scene("res://Scenes/Title.tscn")
+	return _transition_rect.transition_to("res://Scenes/Title.tscn")

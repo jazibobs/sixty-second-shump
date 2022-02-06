@@ -57,14 +57,14 @@ func fire_weapon():
 	laser_instance_l.modulate = colors[randi() % colors.size()]
 	laser_instance_r.modulate = colors[randi() % colors.size()]
 	
-	laser_instance_l.position.x = get_global_position().x - 16
-	laser_instance_l.position.y = get_global_position().y + 50
+	laser_instance_l.position.x = - 16
+	laser_instance_l.position.y = 50
 	
-	laser_instance_r.position.x = get_global_position().x + 16
-	laser_instance_r.position.y = get_global_position().y + 50
+	laser_instance_r.position.x = 16
+	laser_instance_r.position.y = 50
 	
-	get_tree().get_root().call_deferred("add_child", laser_instance_l)
-	get_tree().get_root().call_deferred("add_child", laser_instance_r)
+	add_child(laser_instance_l)
+	add_child(laser_instance_r)
 	
 	$LaserSfx.play() 
 	
