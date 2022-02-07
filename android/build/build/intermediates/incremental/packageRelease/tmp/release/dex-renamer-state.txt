@@ -1,4 +1,0 @@
-#Sun Feb 06 22:02:45 CST 2022
-base.0=/home/jared/dev/games/godot/shump4sixty/android/build/build/intermediates/dex/release/mergeDexRelease/classes.dex
-renamed.0=classes.dex
-path.0=classes.dex

@@ -12,3 +12,6 @@ data_*/
 
 # Ignore builds directory
 Builds/
+
+# Ignore android build settings folder
+android/
